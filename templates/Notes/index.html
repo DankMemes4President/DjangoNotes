@@ -1,0 +1,20 @@
+{% extends 'Notes/base.html' %}
+{% block content %}
+<h1>Notes for {{ user }}</h1>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Tags</th>
+    </tr>
+    {% for note in notes %}
+        <tr>
+            <td>{{ note.title }}</td>
+            <td>{{ note.content }}</td>
+            <td>{{ note.tags }}</td>
+        </tr>
+    {% endfor %}
+</table>
+    <br>
+    <a href="{% url 'notes:notes_logout' %}">Logout</a>
+{% endblock content %}

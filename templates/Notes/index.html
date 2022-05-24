@@ -6,15 +6,19 @@
         <th>Title</th>
         <th>Content</th>
         <th>Tags</th>
+        <th>View</th>
     </tr>
     {% for note in notes %}
         <tr>
             <td>{{ note.title }}</td>
             <td>{{ note.content }}</td>
             <td>{{ note.tags }}</td>
+            <td><a href="{% url 'notes:note_details' note.id %}">view</a></td>
         </tr>
     {% endfor %}
 </table>
+    <br>
+    <a href="{% url 'notes:note_create' %}">Add a Note</a>
     <br>
     <a href="{% url 'notes:notes_logout' %}">Logout</a>
 {% endblock content %}

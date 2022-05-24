@@ -1,0 +1,13 @@
+{% extends 'Notes/base.html' %}
+{% block content %}
+    <h1>
+        Delete {{ note }} ?
+    </h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input name="confirm" value="Confirm" type="submit">
+    </form>
+    <br>
+    <a href="{% url 'notes:note_details' note.id %}">No</a>
+{% endblock content %}

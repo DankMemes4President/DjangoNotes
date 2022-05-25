@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -10,10 +11,6 @@ from Notes.forms import NoteCreateForm
 
 class UserLoginView(LoginView):
     template_name = 'Notes/login.html'
-
-
-# class UserLogout(LogoutView)
-#    template_name =
 
 
 class NotesListView(LoginRequiredMixin, ListView):
@@ -50,7 +47,7 @@ class NotesCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user.userprofile
-        print(form.instance.user)
+        # print(form.instance.user)
         return super().form_valid(form)
 
 
@@ -63,3 +60,11 @@ class NotesDeleteView(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['note'] = self.object
         return context
+
+
+class NotesUpdateView(LoginRequiredMixin, UpdateView):
+    model = Note
+    template_name = 'Notes/note_create.html'
+    form_class = NoteCreateForm
+    success_url = reverse_lazy('notes:list_notes')
+

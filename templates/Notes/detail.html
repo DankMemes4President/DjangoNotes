@@ -12,5 +12,6 @@
     {% endfor %}
     <br>
     <br>
+    <a href="{% url 'notes:note_update' note.id %}">Update</a>
     <a href="{% url 'notes:note_delete' note.id %}">Delete</a>
 {% endblock %}

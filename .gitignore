@@ -215,3 +215,4 @@ ENV/
 /DjangoNotes/keyconfig.py
 
 # End of https://www.gitignore.io/api/macos,linux,django,python,pycharm
+/admin/

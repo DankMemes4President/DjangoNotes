@@ -18,15 +18,3 @@ class NoteCreateForm(forms.ModelForm):
             for tag in tags:
                 Tag.objects.create(title=tag, note=form)
         return form
-
-class TagCreateForm(forms.ModelForm):
-    class Meta:
-        model = Tag
-        fields = ['title']
-
-    def save(self, commit=True, **kwargs):
-        form = super(TagCreateForm, self).save(commit=False)
-        form.note = kwargs['pk']
-        if commit:
-            form.save()
-        return form

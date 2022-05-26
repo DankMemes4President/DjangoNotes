@@ -1,22 +1,37 @@
 {% extends 'Notes/base.html' %}
 {% block content %}
-<h1>Notes for {{ user }}</h1>
-<table border="1">
-    <tr>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Tags</th>
-        <th>View</th>
-    </tr>
-    {% for note in notes %}
+    <h1>Notes for {{ user }}</h1>
+    <br>
+    <form action="{% url 'notes:list_notes' %}" method="GET">
+        <label>
+            <input name="q" type="text" placeholder="Search for Notes" value="">
+        </label><input name="search" type="submit">
+    </form>
+    <br>
+    <table border="1">
         <tr>
-            <td>{{ note.title }}</td>
-            <td>{{ note.content }}</td>
-            <td>{{ note.tags }}</td>
-            <td><a href="{% url 'notes:note_details' note.id %}">view</a></td>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Tags</th>
+            <th>View</th>
         </tr>
-    {% endfor %}
-</table>
+        {% for note in notes %}
+            <tr>
+                <td>{{ note.title }}</td>
+                <td>{{ note.content }}</td>
+                <td>
+                    {% for tag in note.tag_set.all %}
+                        {% if forloop.last %}
+                            {{ tag }}
+                        {% else %}
+                            {{ tag }},
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td><a href="{% url 'notes:note_details' note.id %}">view</a></td>
+            </tr>
+        {% endfor %}
+    </table>
     <br>
     <a href="{% url 'notes:note_create' %}">Add a Note</a>
     <br>

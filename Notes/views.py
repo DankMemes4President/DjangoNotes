@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
@@ -18,11 +19,25 @@ class NotesListView(LoginRequiredMixin, ListView):
     template_name = 'Notes/index.html'
     paginate_by = 10
 
-    def get_context_data(self, *, object_list=Note.get_notes_by_user, **kwargs):
+    def get_context_data(self, object_list=Note.get_notes_by_user, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
         context['notes'] = self.object_list
         return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query is '':
+            query = None
+        if query is not None:
+            object_list = Note.objects.filter(
+                Q(tag__title__icontains=query)
+            ).distinct()
+            print(object_list)
+            return object_list
+        object_list = Note.objects.filter(user=self.request.user.userprofile)
+        print(object_list)
+        return object_list
 
 
 class NotesDetailView(LoginRequiredMixin, DetailView):
